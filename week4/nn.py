@@ -1,25 +1,23 @@
 """
-This script builds and runs a graph with miniflow.
+NOTE: Here we're using an Input node for more than a scalar.
+In the case of weights and inputs the value of the Input node is
+actually a python list!
 
-There is no need to change anything to solve this quiz!
-
-However, feel free to play with the network! Can you also
-build a network that solves the equation below?
-
-(x + y) + y
+In general, there's no restriction on the values that can be passed to an Input node.
 """
-
 from miniflow import *
 
-x, y = Input(), Input()
+inputs, weights, bias = Input(), Input(), Input()
 
-f = Add(x, y)
+f = Linear(inputs, weights, bias)
 
-feed_dict = {x: 10, y: 5}
+feed_dict = {
+    inputs: [6, 14, 3],
+    weights: [0.5, 0.25, 1.4],
+    bias: 2
+}
 
-sorted_nodes = topological_sort(feed_dict)
-output = forward_pass(f, sorted_nodes)
+graph = topological_sort(feed_dict)
+output = forward_pass(f, graph)
 
-# NOTE: because topological_sort set the values for the `Input` nodes we could also access
-# the value for x with x.value (same goes for y).
-print("{} + {} = {} (according to miniflow)".format(feed_dict[x], feed_dict[y], output))
+print(output) # should be 12.7 with this example

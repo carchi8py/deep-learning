@@ -1,8 +1,9 @@
 """
-You need to change the Add() class below.
+Write the Linear#forward method below!
 """
 
-class Node(object):
+
+class Node:
     def __init__(self, inbound_nodes=[]):
         # Nodes from which this Node receives values
         self.inbound_nodes = inbound_nodes
@@ -27,49 +28,48 @@ class Node(object):
 
 class Input(Node):
     def __init__(self):
-        # an Input node has no inbound nodes,
+        # An Input Node has no inbound nodes,
         # so no need to pass anything to the Node instantiator
         Node.__init__(self)
 
-    # NOTE: Input node is the only node that may
-    # receive its value as an argument to forward().
-    #
-    # All other node implementations should calculate their
-    # values from the value of previous nodes, using
-    # self.inbound_nodes
-    #
-    # Example:
-    # val0 = self.inbound_nodes[0].value
+        # NOTE: Input Node is the only Node where the value
+        # may be passed as an argument to forward().
+        #
+        # All other Node implementations should get the value
+        # of the previous nodes from self.inbound_nodes
+        #
+        # Example:
+        # val0 = self.inbound_nodes[0].value
     def forward(self, value=None):
+        # Overwrite the value if one is passed in.
         if value is not None:
             self.value = value
 
 
-class Add(Node):
-    def __init__(self, x, y):
-        # You could access `x` and `y` in forward with
-        # self.inbound_nodes[0] (`x`) and self.inbound_nodes[1] (`y`)
-        Node.__init__(self, [x, y])
+class Linear(Node):
+    def __init__(self, inputs, weights, bias):
+        Node.__init__(self, [inputs, weights, bias])
+
+        # NOTE: The weights and bias properties here are not
+        # numbers, but rather references to other nodes.
+        # The weight and bias values are stored within the
+        # respective nodes.
 
     def forward(self):
         """
-        Set the value of this node (`self.value`) to the sum of it's inbound_nodes.
+        Set self.value to the value of the linear function output.
 
-        Your code here!
+        Your code goes here!
         """
-        self.value = self.inbound_nodes[0].value + self.inbound_nodes[1].value
+        pass
 
-
-"""
-No need to change anything below here!
-"""
 
 
 def topological_sort(feed_dict):
     """
-    Sort generic nodes in topological order using Kahn's Algorithm.
+    Sort the nodes in topological order using Kahn's Algorithm.
 
-    `feed_dict`: A dictionary where the key is a `Input` node and the value is the respective value feed to that node.
+    `feed_dict`: A dictionary where the key is a `Input` Node and the value is the respective value feed to that Node.
 
     Returns a list of sorted nodes.
     """
