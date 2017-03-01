@@ -46,7 +46,7 @@ logits = linear(features, w, b)
 train_features, train_labels = mnist_features_labels(n_labels)
 
 with tf.Session() as session:
-    # TODO: Initialize session variables
+    session.run(tf.global_variables_initializer())
     
     # Softmax
     prediction = tf.nn.softmax(logits)
